@@ -1,16 +1,26 @@
 module ReorganizeString
 
-  class Counter
-    attr_accessor :char, :count
+  # @param [String] string
+  def solve(string)
+    pq = heapify string
 
-    def initialize(char, count)
-      @char = char
-      @count = count
-    end
+    # If the number of occurrences of some character is greater than (N + 1) / 2, the task is impossible.
+    return '' if pq.any? { |c| c.n > (string.size + 1) / 2 }
 
+    ans = []
+    ans << next_char(pq) while pq.any?
+    ans.join
+  end
+
+  Item = Struct.new(:char, :n) do
     def <=>(other)
-      count <=> other.count
+      n <=> other.n
     end
+  end
+
+  def heapify(string)
+    counts = string.chars.each_with_object(Hash.new(0)) { |char, h| h[char] += 1 }
+    counts.map { |k, v| Item.new(k, v) }.sort!
   end
 
   def heap_push(arr, x)
@@ -18,25 +28,10 @@ module ReorganizeString
     arr.insert(idx, x)
   end
 
-  # @param [String] string
-  def solve(string)
-    pq = string.chars.each_with_object(Hash.new(0)) { |e, h| h[e] += 1 }.map { |k, v| Counter.new(k, v) }.sort!
-    return '' if pq.any? { |c| c.count > (string.size + 1) / 2 }
-
-    ans = []
-    while pq.size >= 2
-      c1 = pq.pop
-      c2 = pq.pop
-      ans << c1.char << c2.char
-      c1.count -= 1
-      c2.count -= 1
-      heap_push(pq, c1) if c1.count.positive?
-      heap_push(pq, c2) if c2.count.positive?
-    end
-
-    ans << pq.pop.char if pq.any?
-
-    ans.join
+  def next_char(pq)
+    item = pq.pop
+    item.n -= 1
+    heap_push(pq, item) if item.n.positive?
+    item.char
   end
-
 end
