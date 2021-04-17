@@ -1,11 +1,11 @@
 require 'set'
 
-class AlienDictionary
+module AlienDictionary
   # @param [Array<String>] words
   # @return [Array<Integer>] or empty if the order is invalid
   def solve(words)
     # construct indegrees table
-    letters = words.map { |w| w.split('').uniq }.flatten.uniq
+    letters = words.map { |w| w.chars.uniq }.flatten.uniq
     indegrees = letters.collect { |c| [c, 0] }.to_h
     adjacency = Hash.new { |hash, key| hash[key] = Set.new }
 

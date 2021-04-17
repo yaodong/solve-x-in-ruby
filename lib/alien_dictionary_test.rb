@@ -2,8 +2,9 @@ require 'test/unit'
 require 'alien_dictionary'
 
 class SolutionTest < Test::Unit::TestCase
+  include AlienDictionary
+
   def test_solution
-    sol = AlienDictionary.new
-    assert_equal sol.solve(%w[wrt wrf er ett rftt]), %w[w e r t f]
+    assert_equal solve(%w[wrt wrf er ett rftt]), %w[w e r t f]
   end
 end

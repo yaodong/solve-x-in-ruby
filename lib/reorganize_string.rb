@@ -1,4 +1,4 @@
-class ReorganizeString
+module ReorganizeString
 
   class Counter
     attr_accessor :char, :count
