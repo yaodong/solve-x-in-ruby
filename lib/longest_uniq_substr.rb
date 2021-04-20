@@ -2,7 +2,7 @@ module LongestUniqSubstr
 
   # @param [String] string
   def solve(string)
-    start, result, seen = 0, 0, Hash.new(-1)
+    start, result, seen = 0, 0, Hash.new
 
     string.each_char.with_index do |char, index|
       if seen.include?(char)
